@@ -1,10 +1,10 @@
 import type { NextConfig } from 'next'
-import { proxyHeaders } from './proxy'
+import { securityHeaders } from './security-headers'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  headers: proxyHeaders,
+  headers: securityHeaders,
 }
 
 export default nextConfig

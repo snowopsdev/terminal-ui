@@ -5,7 +5,7 @@ type SecurityHeader = {
   value: string
 }
 
-const securityHeaders: SecurityHeader[] = [
+const headers: SecurityHeader[] = [
   {
     key: 'X-Content-Type-Options',
     value: 'nosniff',
@@ -24,9 +24,9 @@ const securityHeaders: SecurityHeader[] = [
   },
 ]
 
-export const proxyHeaders: NextConfig['headers'] = async () => [
+export const securityHeaders: NextConfig['headers'] = async () => [
   {
     source: '/(.*)',
-    headers: securityHeaders,
+    headers,
   },
 ]
