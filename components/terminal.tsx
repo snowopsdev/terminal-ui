@@ -12,6 +12,23 @@ interface TerminalProps {
 
 const TerminalPromptContext = createContext('$')
 
+/**
+ * Displays a terminal window with macOS-style chrome and content area.
+ * Renders a terminal emulator UI with title bar, window controls, and monospace content.
+ * 
+ * @param children - Terminal content (TerminalCommand, TerminalOutput, TerminalSpinner components)
+ * @param title - Window title shown in the chrome (default: 'Terminal')
+ * @param prompt - Command prompt symbol (default: '$')
+ * @param className - Additional CSS classes to apply to the container
+ * 
+ * @example
+ * ```tsx
+ * <Terminal title="my-app" prompt="user@host">
+ *   <TerminalCommand>npm install</TerminalCommand>
+ *   <TerminalOutput type="success">✓ Installed</TerminalOutput>
+ * </Terminal>
+ * ```
+ */
 export function Terminal({ children, title = 'Terminal', prompt = '$', className = '' }: TerminalProps) {
   return (
     <div className={`bg-[var(--term-bg-light)] border border-[var(--glass-border)] rounded-lg overflow-hidden ${className}`}>
@@ -45,6 +62,20 @@ interface TerminalCommandProps {
   prompt?: string
 }
 
+/**
+ * Displays a command line in the terminal with a prompt symbol.
+ * Renders text with a leading prompt indicator (typically '$' or '#').
+ * Inherits prompt from parent Terminal component via context if not specified.
+ * 
+ * @param children - The command text to display
+ * @param prompt - The prompt symbol to display before the command (inherited from Terminal if omitted)
+ * 
+ * @example
+ * ```tsx
+ * <TerminalCommand prompt="user@host:~$">ls -la</TerminalCommand>
+ * // Renders: user@host:~$ ls -la
+ * ```
+ */
 export function TerminalCommand({ children, prompt }: TerminalCommandProps) {
   const inheritedPrompt = useContext(TerminalPromptContext)
 
@@ -61,6 +92,25 @@ interface TerminalOutputProps {
   type?: 'normal' | 'success' | 'error' | 'info' | 'warning'
 }
 
+/**
+ * Displays output text with semantic coloring based on message type.
+ * Uses theme colors to indicate success (green), error (red), info (blue), or warning (yellow).
+ * 
+ * @param children - The output text to display
+ * @param type - The type of output message (default: 'normal')
+ *   - 'normal': Dim gray text
+ *   - 'success': Green text
+ *   - 'error': Red text
+ *   - 'info': Blue text
+ *   - 'warning': Yellow text
+ * 
+ * @example
+ * ```tsx
+ * <TerminalOutput type="success">✓ Build completed successfully</TerminalOutput>
+ * <TerminalOutput type="error">✗ Error: File not found</TerminalOutput>
+ * <TerminalOutput type="info">ℹ Version 1.0.0</TerminalOutput>
+ * ```
+ */
 export function TerminalOutput({ children, type = 'normal' }: TerminalOutputProps) {
   const colors = {
     normal: 'text-[var(--term-fg-dim)]',
@@ -81,6 +131,18 @@ interface TerminalSpinnerProps {
   text?: string
 }
 
+/**
+ * Displays an animated spinner with optional text for loading states.
+ * Uses Unicode braille characters for smooth animation.
+ * 
+ * @param text - Optional text to display next to the spinner
+ * 
+ * @example
+ * ```tsx
+ * <TerminalSpinner text="Installing dependencies..." />
+ * // Renders: ⠋ Installing dependencies...
+ * ```
+ */
 export function TerminalSpinner({ text }: TerminalSpinnerProps) {
   return (
     <div className="flex items-center gap-2 text-[var(--term-blue)]">
