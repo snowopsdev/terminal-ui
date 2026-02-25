@@ -6,6 +6,10 @@ interface TreeDirectory {
 
 type TreeNode = TreeDirectory | string[] | null
 type TreeData = TreeDirectory
+interface TreeLine {
+  key: string
+  text: string
+}
 
 interface TerminalTreeProps {
   /**
@@ -40,9 +44,9 @@ export function TerminalTree({ data, className = '' }: TerminalTreeProps) {
 
   return (
     <div className={`space-y-0.5 font-mono text-sm text-[var(--term-fg)] ${className}`}>
-      {lines.map((line, index) => (
-        <div key={`${line}-${index}`} className="whitespace-pre">
-          {line}
+      {lines.map((line) => (
+        <div key={line.key} className="whitespace-pre">
+          {line.text}
         </div>
       ))}
     </div>
@@ -57,53 +61,56 @@ function isDirectoryLike(node: TreeNode): boolean {
   return Array.isArray(node) || isDirectory(node)
 }
 
-function renderTree(data: TreeData): string[] {
+function renderTree(data: TreeData): TreeLine[] {
   const rootEntries = Object.entries(data)
-  const lines: string[] = []
+  const lines: TreeLine[] = []
 
-  rootEntries.forEach(([name, node], rootIndex) => {
-    const isRootLast = rootIndex === rootEntries.length - 1
-    const rootLine = rootIndex === 0
-      ? `${name}${isDirectoryLike(node) ? '/' : ''}`
-      : `${isRootLast ? '└──' : '├──'} ${name}${isDirectoryLike(node) ? '/' : ''}`
-    lines.push(rootLine)
+  rootEntries.forEach(([name, node], index) => {
+    const isLast = index === rootEntries.length - 1
+    const nodePath = name
+    const line = `${isLast ? '└──' : '├──'} ${name}${isDirectoryLike(node) ? '/' : ''}`
+    lines.push({ key: nodePath, text: line })
 
-    const childPrefix = rootIndex === 0
-      ? isRootLast ? '    ' : '│   '
-      : isRootLast ? '    ' : '│   '
+    // For child levels, continue the vertical rail only when there are siblings below.
+    const childPrefix = isLast ? '    ' : '│   '
 
     if (Array.isArray(node)) {
-      lines.push(...renderArrayChildren(node, childPrefix))
+      lines.push(...renderArrayChildren(node, childPrefix, nodePath))
     } else if (isDirectory(node)) {
-      lines.push(...renderDirectoryChildren(node, childPrefix))
+      lines.push(...renderDirectoryChildren(node, childPrefix, nodePath))
     }
   })
 
   return lines
 }
 
-function renderArrayChildren(items: string[], prefix: string): string[] {
+function renderArrayChildren(items: string[], prefix: string, basePath: string): TreeLine[] {
   return items.map((item, index) => {
     const isLast = index === items.length - 1
-    return `${prefix}${isLast ? '└──' : '├──'} ${item}`
+    return {
+      key: `${basePath}/${item}:${index}`,
+      text: `${prefix}${isLast ? '└──' : '├──'} ${item}`,
+    }
   })
 }
 
-function renderDirectoryChildren(directory: TreeDirectory, prefix: string): string[] {
+function renderDirectoryChildren(directory: TreeDirectory, prefix: string, basePath: string): TreeLine[] {
   const entries = Object.entries(directory)
-  const lines: string[] = []
+  const lines: TreeLine[] = []
 
   entries.forEach(([name, node], index) => {
     const isLast = index === entries.length - 1
+    const nodePath = `${basePath}/${name}`
     const branch = `${prefix}${isLast ? '└──' : '├──'} ${name}${isDirectoryLike(node) ? '/' : ''}`
-    lines.push(branch)
+    lines.push({ key: nodePath, text: branch })
 
-    const nestedPrefix = `${prefix}${isLast ? '    ' : '│   '}`
+    // Child indentation is one level deeper. Last nodes switch to spaces.
+    const nestedPrefix = isLast ? `${prefix}    ` : `${prefix}│   `
 
     if (Array.isArray(node)) {
-      lines.push(...renderArrayChildren(node, nestedPrefix))
+      lines.push(...renderArrayChildren(node, nestedPrefix, nodePath))
     } else if (isDirectory(node)) {
-      lines.push(...renderDirectoryChildren(node, nestedPrefix))
+      lines.push(...renderDirectoryChildren(node, nestedPrefix, nodePath))
     }
   })
 
