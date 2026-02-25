@@ -62,21 +62,31 @@ export function TerminalProgress({
   showPercent = true,
   variant = 'green',
 }: TerminalProgressProps) {
+  const safeWidth = Math.max(1, Math.floor(width))
+  const filledChar = filled.slice(0, 1) || '█'
+  const emptyChar = empty.slice(0, 1) || '░'
   const clamped = Math.max(0, Math.min(100, percent))
-  const filledCount = Math.round((clamped / 100) * width)
-  const emptyCount = width - filledCount
+  const filledCount = Math.round((clamped / 100) * safeWidth)
+  const emptyCount = safeWidth - filledCount
 
   const color = variantColors[variant] ?? variantColors.green
 
   return (
-    <div className="flex items-center gap-2 font-mono text-sm mb-1">
+    <div
+      role="progressbar"
+      aria-label={typeof label === 'string' ? label : 'Terminal progress'}
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={clamped}
+      className="mb-1 flex items-center gap-2 font-mono text-sm"
+    >
       {label && (
         <span className="text-[var(--term-fg-dim)] flex-shrink-0">{label}</span>
       )}
       <span className="flex-shrink-0">
         <span className="text-[var(--term-fg-dim)]">[</span>
-        <span style={{ color }}>{filled.repeat(filledCount)}</span>
-        <span className="text-[var(--term-fg-dim)]">{empty.repeat(emptyCount)}</span>
+        <span style={{ color }}>{filledChar.repeat(filledCount)}</span>
+        <span className="text-[var(--term-fg-dim)]">{emptyChar.repeat(emptyCount)}</span>
         <span className="text-[var(--term-fg-dim)]">]</span>
       </span>
       {showPercent && (
