@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+:root {
+  /* Terminal color palette */
+  --term-bg: #0a0a0c;
+  --term-bg-light: #1a1a1e;
+  --term-fg: #e4e4e7;
+  --term-fg-dim: #a1a1aa;
+  --term-green: #10b981;
+  --term-blue: #3b82f6;
+  --term-yellow: #eab308;
+  --term-red: #ef4444;
+  --term-purple: #a855f7;
+  --term-cyan: #06b6d4;
+  
+  /* Glass effect */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  
+  --font-mono: var(--font-jetbrains-mono), 'SF Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--term-bg);
+  color: var(--term-fg);
+  font-family: var(--font-inter), -apple-system, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* Terminal text styling */
+.term-text {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Cursor animation */
+@keyframes cursor-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 16px;
+  background: var(--term-green);
+  animation: cursor-blink 1s infinite;
+  margin-left: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+  color: var(--term-fg);
+}
+
+/* Focus styles */
+*:focus-visible {
+  outline: 2px solid var(--term-blue);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
