@@ -1,7 +1,10 @@
 'use client'
 
-import { ReactNode } from 'react'
+import { ReactNode, useMemo } from 'react'
 import { Minimize2, Maximize2, X } from 'lucide-react'
+import Prism from 'prismjs'
+import 'prismjs/components/prism-json'
+import 'prismjs/components/prism-typescript'
 
 interface TerminalProps {
   children: ReactNode
@@ -55,9 +58,10 @@ export function TerminalCommand({ children, prompt = '$' }: TerminalCommandProps
 interface TerminalOutputProps {
   children: ReactNode
   type?: 'normal' | 'success' | 'error' | 'info' | 'warning'
+  language?: string
 }
 
-export function TerminalOutput({ children, type = 'normal' }: TerminalOutputProps) {
+export function TerminalOutput({ children, type = 'normal', language }: TerminalOutputProps) {
   const colors = {
     normal: 'text-[var(--term-fg-dim)]',
     success: 'text-[var(--term-green)]',
@@ -66,9 +70,30 @@ export function TerminalOutput({ children, type = 'normal' }: TerminalOutputProp
     warning: 'text-[var(--term-yellow)]',
   }
 
+  const textContent = useMemo(() => {
+    if (typeof children === 'string' || typeof children === 'number') {
+      return String(children)
+    }
+    return null
+  }, [children])
+
+  const highlightedHtml = useMemo(() => {
+    if (!language || textContent === null) return null
+
+    const normalizedLanguage = language.toLowerCase()
+    const grammar = Prism.languages[normalizedLanguage]
+    if (!grammar) return null
+
+    return Prism.highlight(textContent, grammar, normalizedLanguage)
+  }, [language, textContent])
+
   return (
-    <div className={`mb-1 ${colors[type]}`}>
-      {children}
+    <div className={`mb-1 whitespace-pre-wrap ${colors[type]}`}>
+      {highlightedHtml ? (
+        <code className="terminal-code" dangerouslySetInnerHTML={{ __html: highlightedHtml }} />
+      ) : (
+        children
+      )}
     </div>
   )
 }
