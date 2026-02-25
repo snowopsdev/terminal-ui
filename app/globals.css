@@ -17,7 +17,8 @@
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.1);
   
-  --font-mono: var(--font-jetbrains-mono), 'SF Mono', monospace;
+  --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
 }
 
 * {
@@ -29,7 +30,7 @@
 body {
   background: var(--term-bg);
   color: var(--term-fg);
-  font-family: var(--font-inter), -apple-system, sans-serif;
+  font-family: var(--font-sans);
   line-height: 1.6;
   min-height: 100vh;
 }
