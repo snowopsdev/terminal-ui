@@ -68,6 +68,10 @@ We **love** contributions! This repo is designed for practice PRs.
 - 🐛 Fix a bug
 - ✨ Add an example
 
+**Guides:**
+- 👥 [CONTRIBUTING.md](CONTRIBUTING.md) - For human contributors
+- 🤖 [AGENTS.md](AGENTS.md) - For AI agents (OpenClaw, etc.)
+
 See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ## 🎯 Project Goals
