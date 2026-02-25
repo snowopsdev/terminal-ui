@@ -71,26 +71,26 @@ All documentation is written and ready:
 **12 starter issues prepared:**
 
 ### Themes (⭐ Easy - 5 min each)
-1. Add Dracula theme
-2. Add Nord theme
-3. Add Monokai theme
-4. Add GitHub Dark theme
+- Add Dracula theme
+- Add Nord theme
+- Add Monokai theme
+- Add GitHub Dark theme
 
 ### Components (⭐⭐ Medium to ⭐⭐⭐ Hard)
-5. Create TerminalProgress (progress bars)
-6. Create TerminalTable (data tables)
-7. Create TerminalTree (file trees)
-8. Create TerminalPrompt (interactive input)
+- Create TerminalProgress (progress bars)
+- Create TerminalTable (data tables)
+- Create TerminalTree (file trees)
+- Create TerminalPrompt (interactive input)
 
 ### Documentation (⭐ Easy)
-9. Add JSDoc comments to all components
-10. Add screenshots to README
+- Add JSDoc comments to all components
+- Add screenshots to README
 
 ### Bugs (⭐⭐ Medium)
-11. Fix mobile scrolling on iOS
+- Fix mobile scrolling on iOS
 
 ### Enhancements (⭐ Easy)
-12. Add copy button to Terminal
+- Add copy button to Terminal
 
 All issues have:
 - Clear acceptance criteria
@@ -108,7 +108,7 @@ All issues have:
 
 **Blocks:**
 - API keys, tokens, passwords
-- Tailscale URLs, gateway URLs
+- Internal network and VPN URLs
 - Device IDs
 - GitHub tokens
 - AWS credentials
