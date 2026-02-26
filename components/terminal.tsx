@@ -173,6 +173,8 @@ interface TerminalSpinnerProps {
   text?: string
 }
 
+const SPINNER_FRAMES = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'] as const
+
 /**
  * Displays an animated spinner with optional text for loading states.
  * Uses Unicode braille characters for smooth animation.
@@ -186,9 +188,21 @@ interface TerminalSpinnerProps {
  * ```
  */
 export function TerminalSpinner({ text }: TerminalSpinnerProps) {
+  const [frameIndex, setFrameIndex] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setFrameIndex((prev) => (prev + 1) % SPINNER_FRAMES.length)
+    }, 80)
+
+    return () => {
+      window.clearInterval(timer)
+    }
+  }, [])
+
   return (
     <div className="flex items-center gap-2 text-[var(--term-blue)]">
-      <span className="animate-spin">⠋</span>
+      <span aria-hidden>{SPINNER_FRAMES[frameIndex]}</span>
       {text && <span>{text}</span>}
     </div>
   )
