@@ -240,6 +240,7 @@ export function TerminalSpinner({ text }: TerminalSpinnerProps) {
 export { TerminalProgress } from './terminal-progress'
 export { TerminalPrompt } from './terminal-prompt'
 export { TerminalTree } from './terminal-tree'
+export type { TreeNode, TreeRenderContext, TerminalTreeProps } from './terminal-tree'
 export { TerminalLog } from './terminal-log'
 export { TerminalTable, type ColumnAlign } from './terminal-table'
 export { TerminalBarChart, TerminalSparkline, type BarChartVariant } from './terminal-chart'

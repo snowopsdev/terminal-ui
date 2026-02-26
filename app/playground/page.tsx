@@ -3,6 +3,7 @@ import { Terminal, TerminalCommand, TerminalDiff, TerminalOutput, TerminalSpinne
 import { TerminalProgress } from '@/components/terminal-progress'
 import { LogDemo } from './log-demo'
 import { PromptDemo } from './prompt-demo'
+import { TreeDemo } from './tree-demo'
 
 export const metadata = {
   title: 'Playground',
@@ -112,6 +113,16 @@ export default function PlaygroundPage() {
 }`}
           </TerminalOutput>
         </Terminal>
+      </section>
+
+      <section className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold font-mono text-[var(--term-fg)]">
+          TerminalTree
+        </h2>
+        <p className="text-sm text-[var(--term-fg-dim)] font-mono">
+          Expandable tree with custom icon, label, and row render props.
+        </p>
+        <TreeDemo />
       </section>
 
       <section className="flex flex-col gap-2">
