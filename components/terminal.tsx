@@ -1,7 +1,6 @@
 'use client'
 
 import { createContext, ReactNode, useContext, useEffect, useMemo, useState } from 'react'
-import { Minimize2, Maximize2, X } from 'lucide-react'
 
 interface TerminalProps {
   children: ReactNode
@@ -42,11 +41,7 @@ export function Terminal({ children, title = 'Terminal', prompt = '$', className
         <div className="text-xs text-[var(--term-fg-dim)] font-mono">
           {title}
         </div>
-        <div className="flex items-center gap-2 opacity-0">
-          <Minimize2 size={12} />
-          <Maximize2 size={12} />
-          <X size={12} />
-        </div>
+        <div className="w-[44px]" aria-hidden />
       </div>
       
       {/* Terminal Content */}
